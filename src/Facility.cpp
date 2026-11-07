@@ -14,34 +14,34 @@ Facility::Facility(){
 	
 }
 
-void Resource::SetID(string idX){
+void Facility::SetID(string idX){
 	id = idX;
 }
 
-string Resource::GetID() const{
+string Facility::GetID() const{
 	return id;
 }
 
-void Resource::SetFName(string fNameX){
+void Facility::SetFName(string fNameX){
 	fName = fNameX;
 }
 
-string Resource::GetFName() const{
+string Facility::GetFName() const{
 	return fName;
 }
 
-void Resource::SetBName(string bNameX){
+void Facility::SetBName(string bNameX){
 	bName = bNameX;
 }
 
-string Resource::GetBName() const{
+string Facility::GetBName() const{
 	return bName;
 }
 
-void Resource::SetCategory(string categoryX){
+void Facility::SetCategory(string categoryX){
 	category = categoryX;
 }
 
-string Resource::GetStatus() const{
+string Facility::GetCategory() const{
 	return category;
 }
