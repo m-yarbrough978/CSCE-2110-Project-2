@@ -25,7 +25,14 @@ int main (){
 		
 	}
 	else{
-		
+		string buildingName;
+
+		while(getline(buildFile, buildingName)) {
+			if(!buildingName.empty()) {
+				graph.addBuilding(buildingName);
+			}
+		}
+		buildFile.close();
 		cout << "buildings.txt loaded successfully." << endl;
 		
 		//add load summary
@@ -40,7 +47,20 @@ int main (){
 		
 	}
 	else{
+		string line;
+
+		while(getline(conFile, line)) {
+			size_t separator = line.find('|');
+
+			if(separator != string::npos){
+				string building1 = line.substr(0, separator);
+				string building2 = line.substr(separator + 1);
+
+				graph.addConnection(building1, building2);
+			}
+		}
 		
+		conFile.close();		
 		cout << "connections.txt loaded successfully." << endl;
 		
 		//add load summary
