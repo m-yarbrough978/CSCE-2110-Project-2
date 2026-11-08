@@ -6,7 +6,6 @@
 #include "Facility.h"
 #include <string>
 #include <vector>
-#include <list>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -32,8 +31,8 @@ class HashTable{
 			
 		};
 		
-		vector<list<key_Fac>> hTable;				//defines the hashtable from a vector of a list of structs
-		int numBuckets = 20;						//total number of buckets in the hash table
+		vector<key_Fac> hTable;						//defines the hashtable from a vector of a list of structs
+		int numBuckets = 241;						//total number of buckets in the hash table
 		int numCol = 0;								//total number of collisions found during StoreFacility function
 		
 	
