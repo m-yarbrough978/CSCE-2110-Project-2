@@ -1,0 +1,52 @@
+Test Results Log
+
+Test 1 (11/4/26)
+
+Description:
+
+This test was to see if the menu in 'main.cpp' correctly handled invalid menu
+input.
+
+Input:
+
+0 to 9
+-1
+20
+-20
+111111
+-111111
+A
+a
+abcd
+ABCD
+
+Expected Result:
+
+The menu should reject any input that is not 0 to 9 and print a suitable error
+message telling the user to give a valid menu option.
+
+Actual Result:
+
+When inputting 0 to 9, the program works as intended, with the program continuing
+for 1-9 and exiting with a message for 0. The alphabetic values and small numbers
+also gave the intended result, but the larger numbers caused the program to continue
+without producing an output message. 
+
+Pass or Fail: Fail
+
+
+Test 2
+
+Description:
+
+
+Input:
+
+
+Expected Result:
+
+
+Actual Result:
+
+
+Pass or Fail:
