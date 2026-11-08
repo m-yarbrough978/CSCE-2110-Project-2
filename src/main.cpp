@@ -1,12 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "HashTable.h"
+#include "Facility.h"
 
 using namespace std; 
 
 int main (){
 
-	
+	HashTable hTab;
 	
 	cout << "+--------------------------------------------------+" << endl;
 	cout << "|         Computer Science and Engineering         |" << endl;
@@ -75,6 +77,8 @@ int main (){
 		
 		//add load summary
 	}
+
+	hTab.StoreFacility(facFile);
 	
 	string choice;
 	
@@ -98,7 +102,7 @@ int main (){
 		
 		if(choice == "1"){
 
-			
+			hTab.Print();
 			
 		}
 		else if(choice == "2"){
