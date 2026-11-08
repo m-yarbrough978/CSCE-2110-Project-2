@@ -148,7 +148,7 @@ PathResult shortestPath(CampusGraph& graph, string start, string destination) {
 }
 
 // Display BFS results.
-void displayBFS(BFSResult result) {
+void displayBFS(CampusGraph& graph, BFSResult result) {
 
     if (!result.found) {
         cout << "Starting building was not found." << endl;
@@ -159,7 +159,11 @@ void displayBFS(BFSResult result) {
 
     for (int i = 0; i < result.visitOrder.size(); i++) {
 
-        cout << result.visitOrder[i] << endl;
+        string name = result.visitOrder[i];
+
+        int index = graph.findBuilding(name);
+
+        cout << name << " - Distance: " << result.distances[index] << endl;
     }
 
     cout << "Reachable buildings: "
