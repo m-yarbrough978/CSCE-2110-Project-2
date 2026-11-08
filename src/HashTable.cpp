@@ -53,62 +53,15 @@ void HashTable::StoreFacility(ifstream& facFile){
 				
 				if(barCount == 1){
 					
-					tempStr = line;
-					tempStr.erase(count - 1);
-					tempStr.at(0) = toupper(tempStr.at(0));		//capitilizes the f in the facility ID beofre hashing or putting it into tempFac
-					tempFac.SetID(tempStr);
 					countA = count;
 				}
 				else if(barCount == 2){
 					
-					tempStr = line;
-					tempStr.erase(0, countA);
-					
-					if((lineCount == 5) || (lineCount == 7) || (lineCount == 9)){
-						tempStr.erase(8);
-					}
-					else if((lineCount == 4) || (lineCount == 6) || (lineCount == 8)){
-						tempStr.erase(14);
-					}
-					else if(lineCount == 1){
-						tempStr.erase(17);
-					}
-					else if(lineCount == 10){
-						tempStr.erase(18);
-					}
-					else if(lineCount == 2){
-						tempStr.erase(21);
-					}
-					else if(lineCount == 3){
-						tempStr.erase(23);
-					}
-					
-					tempFac.SetFName(tempStr);
 					countB = count;
 				}
 				else if(barCount == 3){
-					tempStr = line;
-					tempStr.erase(0, countB);
 					
-					if((lineCount < 5) || (lineCount == 16) || (lineCount == 9) || (lineCount == 10) || (lineCount == 18)){
-						tempStr.erase(10);
-					}
-					else if((lineCount >= 5) && (lineCount < 9) || (lineCount == 17)){
-						tempStr.erase(6);
-					}
-					else if((lineCount == 11) || (lineCount == 12) || (lineCount == 13) || (lineCount == 19)){
-						tempStr.erase(13);
-					}
-					else if((lineCount == 14) || (lineCount == 15) || (lineCount == 20)){
-						tempStr.erase(20);
-					}
-					
-					tempFac.SetBName(tempStr);
 					countC = count;
-					
-					tempStr = line;
-					tempStr.erase(0,countC);
-					tempFac.SetCategory(tempStr);
 				}
 			}
 			else if(line[i] != '|'){
@@ -117,61 +70,144 @@ void HashTable::StoreFacility(ifstream& facFile){
 			}
 			
 		}
+
+		tempStr = line;
+		tempStr.erase(4);
+		tempStr.at(0) = toupper(tempStr.at(0));		//capitilizes the f in the facility ID beofre hashing or putting it into tempFac
+		tempFac.SetID(tempStr);
+		
+		/*
+			Ensures that the facility ID has no whitespace and is uppercase normalized
+		*/
+		
+		tempStr = line;
+		tempStr.erase(0, countA);
+		countA = countB - countA - 1;
+		tempStr.erase(countA);
+		tempFac.SetFName(tempStr);
+		
+		/*
+			Ensures that the facility name has no whitespace for any length of facility name
+		*/
+		
+		tempStr = line;
+		tempStr.erase(0, countB);
+		countB = countC - countB - 1;
+		tempStr.erase(countB);
+		tempFac.SetBName(tempStr);
+		
+		/*
+			Ensures that the building name has no whitespace for any length of building name
+		*/
+		
+		tempStr = line;
+		tempStr.erase(0, countC);
+		tempFac.SetCategory(tempStr);
+		
+		/*
+			Ensures that the facility category has no whitespace for any length of facility category (unless it has comments after the line, which needs to be fixed)
+		*/
 		
 		tempStr = tempFac.GetID();
 
 		hKey = Hash(tempStr);
+
+		int dupeID = 0;
+		char c2, c3, c4;
+		c2 = static_cast<char>(tempStr.at(1));
+		c3 = static_cast<char>(tempStr.at(2));
+		c4 = static_cast<char>(tempStr.at(3));
+
+		for(i = 0; i < hTable.size(); ++i){				//this for-loop checks if any of the elements in the hash table have the same facility ID as the new facility that we want to add
+			
+			tempPair = hTable[i];
+			
+			if(tempStr == tempPair.fac.GetID()){
+				++dupeID;
+				break;
+			}
+			else{
+				continue;
+			}
+		}
 		
-		if(lineCount > 1){
+		if((tempStr.size() != 4) || (tempStr.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c2) == 0) || (isdigit(c3) == 0) || (tempFac.GetFName().size() < 2) || (tempFac.GetCategory().size() < 2)){
 			
-			int dupe = 0;
-			int tempKey = 0;
+			++numReject;
+			continue;
 			
-			for(i = 0; i < hTable.size(); ++i){
+			//the coditions allow the code to reject any line that has an invalid key and an empty facility name or category
+		}
+		else if((dupeID == 1)){		//this condition allows the code to reject a facility in facilites.txt with a duplicate ID
+			
+			++numReject;
+			continue;
+		}
+		else{
+			
+			if(lineCount > 1){									//this conditional statement checks if the program is currently on line 1
+			
+				int dupe = 0;		//dupe is used to tell if a facility has been seen already.
+				int tempKey = hKey;	//copy of hKey to preserve hKey's value
+			
+				for(i = 0; i < hTable.size(); ++i){
 				
-				tempPair = hTable[i];
+					tempPair = hTable[i];
 				
-				if(hKey == tempPair.key){
+					if(tempKey == tempPair.key){				//this for-loop implements a rough linear probing collision handling strategy
 					
-					for(j = 0; j < hTable.size(); ++j){
+					
+						for(j = 0; j < hTable.size(); ++j){
 						
-						tempPair = hTable[j];
-						
-						if(tempKey < tempPair.key){
+							tempPair = hTable[j];
 							
-							tempKey = tempPair.key;
-						}
-						else if(tempKey > tempPair.key){
+							if(tempKey == tempPair.key){
+								
+								++numCol;
+							}
+							else{
+								
+								break;
+							}
 							
-							continue;
+							
+							if(hKey >= 241){					//this if-else statement should make hKey 0 when it equals maax capacity (although then we'd need to check it against the either buckets)
+								tempKey = tempKey - 241;
+							}
+							else if(tempKey < 241){
+								++tempKey;
+							}
+							
 						}
 						
+						tempPair = {tempKey, tempFac};
+						hTable.push_back(tempPair);
+						++dupe;
+						break;
+					}
+					else{
+						
+						continue;
 					}
 					
-					tempPair = {tempKey + 1, tempFac};
+				}
+			
+			
+				if(dupe == 0){							//if a duplicate facility ID wasn't found, then enter the new facility with tempPair unaffected by collsion handling
+					tempPair = {hKey, tempFac};
 					hTable.push_back(tempPair);
-					++numCol;
-					++dupe;
-					break;
 				}
 				
 			}
+			else if(lineCount == 1){					//if this is the first line fully searched, then enter the first facility into the hash table
 			
-			
-			if(dupe == 0){
 				tempPair = {hKey, tempFac};
 				hTable.push_back(tempPair);
+				
 			}
-			
-		}
-		else if(lineCount == 1){
-			
-			tempPair = {hKey, tempFac};
-			hTable.push_back(tempPair);
-			
-		}
 		
-		++lineCount;
+			++lineCount;
+		}
 		
 	}
 	
@@ -184,19 +220,20 @@ void HashTable::Print(){
 	Facility tempFac;
 	
 	cout << endl;
-	cout << "+----------------------------------------------------------------------------+" << endl;
-	cout << "|Facility ID |  Facility Name  |    Building Name    |   Facility Category   |" << endl;
-	cout << "|----------------------------------------------------------------------------|" << endl;
+	cout << "Facility with ID " << facID << " found." << endl;
+	cout << "+--------------------------------------------------------------------------------------+" << endl;
+	cout << "|Facility ID |     Facility Name     |    Building Name    |     Facility Category     |" << endl;
+	cout << "|--------------------------------------------------------------------------------------|" << endl;
 	
 	for(i = 0; i < hTable.size(); ++i){
 		
 		tempPair = hTable[i];
 		tempFac = tempPair.fac;
 		
-		cout << left << "|" << setw(12) << tempFac.GetID() << "|";
-		cout << setw(17) << tempFac.GetFName() << "|";
+		cout << left << "|" << setw(13) << tempFac.GetID() << "|";
+		cout << setw(25) << tempFac.GetFName() << "|";
 		cout << setw(21) << tempFac.GetBName() << "|";
-		cout << setw(23) << tempFac.GetCategory() << "|" << endl; 
+		cout << setw(25) << tempFac.GetCategory() << "|" << endl; 
 		
 	}
 
@@ -229,13 +266,42 @@ void HashTable::SearchByID(string facID){
 	
 	cout << endl;
 	cout << "Facility with ID " << facID << "found." << endl;
-	cout << "+-----------------------------------------------------------------------------+" << endl;
-	cout << "| Facility ID |  Facility Name  |    Building Name    |   Facility Category   |" << endl;
-	cout << "|-----------------------------------------------------------------------------|" << endl;
-	cout << left << "|" << setw(12) << tempPair.fac.GetID() << "|";
-	cout << setw(17) << tempPair.fac.GetFName() << "|";
+	cout << "+---------------------------------------------------------------------------------------+" << endl;
+	cout << "| Facility ID |     Facility Name     |    Building Name    |     Facility Category     |" << endl;
+	cout << "|---------------------------------------------------------------------------------------|" << endl;
+	cout << left << "|" << setw(13) << tempPair.fac.GetID() << "|";
+	cout << setw(25) << tempPair.fac.GetFName() << "|";
 	cout << setw(21) << tempPair.fac.GetBName() << "|";
-	cout << setw(23) << tempPair.fac.GetCategory() << "|" << endl;
+	cout << setw(25) << tempPair.fac.GetCategory() << "|" << endl;
 	cout << "+-----------------------------------------------------------------------------+" << endl << endl;
 	
+}
+
+
+int HashTable::GethTableSize() const{
+	return hTable.size();
+}
+
+void HashTable::SetnumBuckets(int numBucketsX){
+	numBuckets = numBucketsX;
+}
+
+int HashTable::GetnumBuckets() const{
+	return numBuckets;
+}
+
+void HashTable::SetnumCol(int numColX){
+	numCol = numColX;
+}
+
+int HashTable::GetnumCol() const{
+	return numCol;
+}
+
+void HashTable::SetnumReject(int numRejectX){
+	numReject = numRejectX;
+}
+
+int HashTable::GetnumReject() const{
+	return numReject;
 }
