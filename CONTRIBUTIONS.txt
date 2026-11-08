@@ -16,14 +16,19 @@ Created GitHub repository
 Created main.cpp, the required data files, README.txt, and CONTRIBUTIONS.txt and added them to the repository
 
 
-Team Member:
+Team Member: Jayden Thompson
 
 Modules Owned-
-	
 
+BFS.h
+BFS.cpp
+CampusGraph.h
+CampusGraph.cpp
+	
 
 Shared Work Contributions-
 
+main.cpp components and linking between files
 
 
 
