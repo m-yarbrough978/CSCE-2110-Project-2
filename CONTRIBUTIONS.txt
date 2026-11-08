@@ -13,8 +13,6 @@ Created GitHub repository
 
 Created main.cpp, the required data files, README.txt, and CONTRIBUTIONS.txt and added them to the repository
 
-Created Facility.h and Facility.cpp and added them to Micah_branch
-
 
 Team Member:
 
