@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "CampusGraph.h"
+#include "BFS.h"
 
 using namespace std; 
 
@@ -15,6 +17,8 @@ int main (){
 	cout << "| Dabira olubobola OluwadabiraOlubobola@my.unt.edu |" << endl; 
 	cout << "|    Jayden Thompson jaydenthompson2@my.unt.edu    |" << endl;
 	cout << "+--------------------------------------------------+" << endl << endl;
+
+	CampusGraph graph; //creates the campus graph
 
 	ifstream buildFile; 				//creates the buildFile to be used for reading "buildings.txt"
 	buildFile.open("buildings.txt");   //opens "buildings.txt" to be read
@@ -108,19 +112,34 @@ int main (){
 		}
 		else if(choice == "3"){
 
-			
+			cout << "\n===== Campus Graph =====" << endl;
+
+			graph.displayGraph()	
 			
 		}
+			
 		else if(choice == "4"){
 
-			
-			
+			cout << "\n===== Graph Counts and Degrees =====" << endl;
+
+			graph.displayCounts();
+
 		}
+			
 		else if(choice == "5"){
 
-			
+			string start;
+
+			cout << "\Enter starting building: ";
+
+			cin.ignore();
+			getline(cin, start);
+
+			BFSResult result = breadthFirstSearch(graph, start);
+			displayBFS(graph, result);
 
 		}
+			
 		else if(choice == "6"){
 			
 			
