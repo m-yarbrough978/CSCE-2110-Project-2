@@ -55,6 +55,7 @@ void HashTable::StoreFacility(ifstream& facFile){
 					
 					tempStr = line;
 					tempStr.erase(count - 1);
+					tempStr.at(0) = toupper(tempStr.at(0));		//capitilizes the f in the facility ID beofre hashing or putting it into tempFac
 					tempFac.SetID(tempStr);
 					countA = count;
 				}
