@@ -60,8 +60,15 @@ int main (){
 	else{
 		
 		cout << "facilities.txt loaded successfully." << endl;
+		hTab.StoreFacility(facFile);
 		
-		//add load summary
+		cout << endl << "Load summary" << endl;
+		cout << "------------" << endl;
+		cout << "Facilities Accepted: " << hTab.GethTableSize() << endl;
+		cout << "Facilities Rejected: " << hTab.GetnumReject() << endl;
+		cout << "Hash Capacity: " << hTab.GetnumBuckets() << endl;
+		cout << "Entries: " << hTab.GethTableSize() << endl;
+		cout << "Collisions: " << hTab.GetnumCol() << endl << endl;
 	}
 	
 	ifstream depFile;
@@ -78,8 +85,6 @@ int main (){
 		
 		//add load summary
 	}
-
-	hTab.StoreFacility(facFile);
 	
 	string choice;
 	
@@ -113,7 +118,31 @@ int main (){
 
 			choice.at(0) = toupper(choice.at(0));					//capitilizes the f in the facility ID beofre passing into error handling and hTab's SearchByID function
 			
-			hTab.SearchByID(choice);
+			if(choice.size() != 4){
+				
+				cout << endl << "Invaild facility ID. Please try again with a facility that is 4 characters." << endl;
+			
+				//the coditions allow the menu to reject an invalid user-inputted facility ID shorter or longer than 4 characters
+			}
+			else{
+				
+				char c2, c3, c4;
+				c2 = static_cast<char>(choice.at(1));
+				c3 = static_cast<char>(choice.at(2));
+				c4 = static_cast<char>(choice.at(3));
+				
+				if((choice.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c2) == 0) || (isdigit(c3) == 0)){
+					
+					cout << endl << "Invaild facility ID. Please try again in the form F### or f###." << endl;
+					
+					//the coditions allow the menu to reject an invalid user-inputted facility ID
+				}
+				else{
+					
+					hTab.SearchByID(choice);
+				}
+				
+			}
 			
 		}
 		else if(choice == "3"){
