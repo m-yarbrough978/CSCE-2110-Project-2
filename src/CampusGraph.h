@@ -18,10 +18,6 @@ public:
     vector<Building> buildings;
     int totalConnections = 0;
 
-    // Load buildings and connections
-    void loadBuildings(string filename);
-    void loadConnections(string filename);
-
     // Add buildings and connections
     void addBuilding(string name);
     void addConnection(string building1, string building2);
