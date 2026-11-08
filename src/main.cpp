@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cctype>
 #include "HashTable.h"
 #include "Facility.h"
 
@@ -98,7 +99,7 @@ int main (){
 		cout << "0. Exit                                     " << endl << endl;
 		
 		cout << "Enter your choice: ";
-		cin >> choice;
+		getline(cin, choice);
 		
 		if(choice == "1"){
 
@@ -108,7 +109,9 @@ int main (){
 		else if(choice == "2"){
 			
 			cout << "Enter facility ID (F###): " << endl;
-			cin >> choice;
+			getline(cin, choice);
+
+			choice.at(0) = toupper(choice.at(0));					//capitilizes the f in the facility ID beofre passing into error handling and hTab's SearchByID function
 			
 			hTab.SearchByID(choice);
 			
