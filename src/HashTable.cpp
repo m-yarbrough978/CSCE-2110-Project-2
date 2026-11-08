@@ -23,13 +23,12 @@ int HashTable::Hash(string facID){
 
 void HashTable::StoreFacility(ifstream& facFile){
 	
-	list<key_Fac> tempList;
 	key_Fac tempPair;
 	Facility tempFac;
 	char line[100];
 	string tempStr;
 	int lineCount = 1;
-	int i, hKey;
+	int i, j , hKey;
 	
 	facFile.ignore(numeric_limits<streamsize>::max(), '\n');	//ensures the first line of the file is skipped
 	
@@ -119,42 +118,56 @@ void HashTable::StoreFacility(ifstream& facFile){
 		}
 		
 		tempStr = tempFac.GetID();
+
+		hKey = Hash(tempStr);
 		
 		if(lineCount > 1){
 			
-			hKey = Hash(tempStr);
+			int dupe = 0;
+			int tempKey = 0;
 			
 			for(i = 0; i < hTable.size(); ++i){
-			
-				tempList = hTable[i];
-				tempPair = tempList.front();
+				
+				tempPair = hTable[i];
 				
 				if(hKey == tempPair.key){
 					
-					++numCol;
-					tempPair = {hKey, tempFac};
-					tempList.push_back(tempPair);
-					hTable.erase(hTable.begin() + i);
-					hTable.push_back(tempList);
-				}
-				else if(hKey != tempPair.key){
+					for(j = 0; j < hTable.size(); ++j){
+						
+						tempPair = hTable[j];
+						
+						if(tempKey < tempPair.key){
+							
+							tempKey = tempPair.key;
+						}
+						else if(tempKey > tempPair.key){
+							
+							continue;
+						}
+						
+					}
 					
-					list<key_Fac> tempList2;
-					tempPair = {hKey, tempFac};
-					tempList2.push_back(tempPair);
-					hTable.push_back(tempList2);
+					tempPair = {tempKey + 1, tempFac};
+					hTable.push_back(tempPair);
+					++numCol;
+					++dupe;
+					break;
 				}
 				
+			}
+			
+			
+			if(dupe == 0){
+				tempPair = {hKey, tempFac};
+				hTable.push_back(tempPair);
 			}
 			
 		}
 		else if(lineCount == 1){
 			
-			hKey = Hash(tempStr);
-	
 			tempPair = {hKey, tempFac};
-			tempList.push_back(tempPair);
-			hTable.push_back(tempList);
+			hTable.push_back(tempPair);
+			
 		}
 		
 		++lineCount;
@@ -176,46 +189,52 @@ void HashTable::Print(){
 	
 	for(i = 0; i < hTable.size(); ++i){
 		
-		list tempList = hTable[i];
-		list copyList = tempList;
-		
-		tempPair = copyList.front();
+		tempPair = hTable[i];
 		tempFac = tempPair.fac;
 		
-		/*
-		copyList = tempList;
-		
-		for(j = 0; j < copyList.size(); ++j){
-			
-			tempPair = copyList.front();
-			tempFac = tempPair.fac;
-			
-			if(tempFac.GetID() == tempStr){
-				
-				break;
-			}
-			else{
-				
-				copyList.pop_front();
-				continue;
-			}
-		}
-		
-		*/
-	
 		cout << left << "|" << setw(12) << tempFac.GetID() << "|";
 		cout << setw(17) << tempFac.GetFName() << "|";
 		cout << setw(21) << tempFac.GetBName() << "|";
-		cout << setw(23) << tempFac.GetCategory() << "|" << endl;
-		cout << "Number of Collisions: " << numCol << endl; 
-		
-		copyList.pop_front();
+		cout << setw(23) << tempFac.GetCategory() << "|" << endl; 
 		
 	}
-	
-	cout << hTable.size() << endl;
-	cout << numCol << endl;
-	
-	
+
 	cout << "+----------------------------------------------------------------------------+" << endl << endl;
+}
+
+void HashTable::SearchByID(string facID){
+	
+	int hKey = Hash(facID);
+	int i;
+	key_Fac tempPair;
+	
+	for(i = 0; i < hTable.size(); ++i){
+		
+		tempPair = hTable[i];
+		
+		if(hKey == tempPair.key){
+			
+			if(facID == tempPair.fac.GetID()){
+				
+				break;
+			}
+			
+		}
+		else{
+			
+			continue;
+		}
+	}
+	
+	cout << endl;
+	cout << "Facility with ID " << facID << "found." << endl;
+	cout << "+-----------------------------------------------------------------------------+" << endl;
+	cout << "| Facility ID |  Facility Name  |    Building Name    |   Facility Category   |" << endl;
+	cout << "|-----------------------------------------------------------------------------|" << endl;
+	cout << left << "|" << setw(12) << tempPair.fac.GetID() << "|";
+	cout << setw(17) << tempPair.fac.GetFName() << "|";
+	cout << setw(21) << tempPair.fac.GetBName() << "|";
+	cout << setw(23) << tempPair.fac.GetCategory() << "|" << endl;
+	cout << "+-----------------------------------------------------------------------------+" << endl << endl;
+	
 }
