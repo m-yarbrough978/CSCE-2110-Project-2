@@ -107,7 +107,10 @@ int main (){
 		}
 		else if(choice == "2"){
 			
+			cout << "Enter facility ID (F###): " << endl;
+			cin >> choice;
 			
+			hTab.SearchByID(choice);
 			
 		}
 		else if(choice == "3"){
