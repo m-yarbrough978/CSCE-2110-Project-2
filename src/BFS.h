@@ -29,7 +29,7 @@ BFSResult breadthFirstSearch(CampusGraph& graph, string start);
 PathResult shortestPath(CampusGraph& graph, string start, string destination);
 
 // Display results.
-void displayBFS(BFSResult result);
+void displayBFS(CampusGraph& graph, BFSResult result);
 void displayPath(PathResult result, string start, string destination);
 
 #endif
