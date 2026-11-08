@@ -6,6 +6,8 @@ Modules Owned-
 
 Facility.h
 Facility.cpp
+HashTable.h
+HashTable.cpp
 
 Shared Work Contributions-
 
