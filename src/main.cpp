@@ -190,7 +190,7 @@ int main (){
 
 			cout << "\n===== Campus Graph =====" << endl;
 
-			graph.displayGraph()	
+			graph.displayGraph();	
 			
 		}
 			
