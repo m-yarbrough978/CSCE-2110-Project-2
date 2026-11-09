@@ -1,4 +1,16 @@
+/*
 
+Purpose:
+
+This header file provides the function declarations, private variables, and the hash
+table that are used in HashTable.cpp.
+
+Some declarations, such as SearchByName and SearchByCategory, are not implemented into
+the code yet because they are not required for Milestone 1.
+
+Author: Micah Yarbrough
+
+*/
 
 #ifndef HASHTABLE_H
 #define HASHTABLE_H
