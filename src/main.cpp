@@ -1,3 +1,20 @@
+/*
+
+Purpose:
+ 
+This program is built to implement a Campus Facilities Directory that uses
+lets a user locate facilities, explore building connections, find routes, browse a
+department hierarchy, and view summary reports. It uses a hash table to store and
+look for facilities, an undirected graph for campus buildings and walkways, and a
+general tree for the department heirarchy.
+
+Some implementations, such as the facility category report, are not implemented into
+the code yet because they are not required for Milestone 1.
+
+Author: Micah Yarbrough, Dabira Olubobola, and Jayden Thompson
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
