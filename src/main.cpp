@@ -21,6 +21,8 @@ Author: Micah Yarbrough, Dabira Olubobola, and Jayden Thompson
 #include <cctype>
 #include "HashTable.h"
 #include "Facility.h"
+#include "CampusGraph.h"
+#include "BFS.h"
 
 using namespace std; 
 
@@ -36,6 +38,8 @@ int main (){
 	cout << "|    Jayden Thompson jaydenthompson2@my.unt.edu    |" << endl;
 	cout << "+--------------------------------------------------+" << endl << endl;
 
+	CampusGraph graph; //creates the campus graph
+
 	ifstream buildFile; 				//creates the buildFile to be used for reading "buildings.txt"
 	buildFile.open("buildings.txt");   //opens "buildings.txt" to be read
 	
@@ -45,7 +49,14 @@ int main (){
 		
 	}
 	else{
-		
+		string buildingName;
+
+		while(getline(buildFile, buildingName)) {
+			if(!buildingName.empty()) {
+				graph.addBuilding(buildingName);
+			}
+		}
+		buildFile.close();
 		cout << "buildings.txt loaded successfully." << endl;
 		
 		//add load summary
@@ -60,7 +71,20 @@ int main (){
 		
 	}
 	else{
+		string line;
+
+		while(getline(conFile, line)) {
+			size_t separator = line.find('|');
+
+			if(separator != string::npos){
+				string building1 = line.substr(0, separator);
+				string building2 = line.substr(separator + 1);
+
+				graph.addConnection(building1, building2);
+			}
+		}
 		
+		conFile.close();		
 		cout << "connections.txt loaded successfully." << endl;
 		
 		//add load summary
@@ -164,19 +188,34 @@ int main (){
 		}
 		else if(choice == "3"){
 
-			
+			cout << "\n===== Campus Graph =====" << endl;
+
+			graph.displayGraph()	
 			
 		}
+			
 		else if(choice == "4"){
 
-			
-			
+			cout << "\n===== Graph Counts and Degrees =====" << endl;
+
+			graph.displayCounts();
+
 		}
+			
 		else if(choice == "5"){
 
-			
+			string start;
+
+			cout << "\Enter starting building: ";
+
+			cin.ignore();
+			getline(cin, start);
+
+			BFSResult result = breadthFirstSearch(graph, start);
+			displayBFS(graph, result);
 
 		}
+			
 		else if(choice == "6"){
 			
 			
