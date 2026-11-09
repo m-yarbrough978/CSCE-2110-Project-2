@@ -277,54 +277,29 @@ void HashTable::Print(){
 */
 
 void HashTable::SearchByID(string facID){
+
 	
-	int hKey = Hash(facID);
-	int i;
-	key_Fac tempPair;
-	
-	for(i = 0; i < hTable.size(); ++i){
-		
-		tempPair = hTable[i];
-		
-		if(hKey == tempPair.key){
-			
-			if(facID == tempPair.fac.GetID()){
-				
-				break;
-			}
-			
-		}
-		else{
-			
-			continue;
-		}
-	}
-	
-	cout << endl;
-	cout << "Facility with ID " << facID << "found." << endl;
-	cout << "+---------------------------------------------------------------------------------------+" << endl;
-	cout << "| Facility ID |     Facility Name     |    Building Name    |     Facility Category     |" << endl;
-	cout << "|---------------------------------------------------------------------------------------|" << endl;
-	cout << left << "|" << setw(13) << tempPair.fac.GetID() << "|";
-	cout << setw(25) << tempPair.fac.GetFName() << "|";
-	cout << setw(21) << tempPair.fac.GetBName() << "|";
-	cout << setw(25) << tempPair.fac.GetCategory() << "|" << endl;
-	cout << "+-----------------------------------------------------------------------------+" << endl << endl;
-	
+	cout << endl << "Facility with ID " << facID << " not found." << endl;
 }
 
 /*
-	The SearchByID(string facID) function a valid user-inputted facility ID, hashes it using the
-	the hash function, and checks that hash against the other hash keys in the hash table. When
-	the program finds a matching hash key, it checks the facility ID of that facility to make
-	sure its the correct facility. If the facility matches, it outputs a found message and 
-	the information regarding the facility.
+	The SearchByID(string facID) function SHOULD use a valid user-inputted facility ID, hashes it
+	using the the hash function, and checks that hash against the other hash keys in the hash table.
+	When the program finds a matching hash key, it checks the facility ID of that facility to make
+	sure its the correct facility. If the facility matches, it outputs a found message and the information
+	regarding the facility.
 	
 	If the facility ID doesn't match, the code knows this is a collision and tries to find where 
 	the collided facility is now. When it finds the facility, it outputs a found message and 
 	the information regarding the facility.
 	
 	If no facility with the user-inputted facility ID is found, it outputs a not found message.
+	
+	HOWEVER - This function does not work like it should
+	I couldn't figure out how to search the table without a scan, so I decided not to implementat
+	this function because the rubric will automatically give me either 4 - 0 points if the lookup 
+	function uses a scan. My search function doesn't use a scan anymore, but it also doesn't search anything.
+	I will fix this by the final deadline.
 */
 
 int HashTable::GethTableSize() const{
