@@ -1,4 +1,3 @@
- DepartmentTree.cpp
 // Purpose: Implementation of the general department tree (see DepartmentTree.h).
 // Author:  Dabira Olubobola (Member C)
 
