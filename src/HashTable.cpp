@@ -1,4 +1,19 @@
+/*
 
+Purpose:
+
+This source file provides the implementation of the function declarations, private variables, and the hash
+table that are defined in HashTable.h. It has a custom hash function is used to store the facilities recorded
+in facilities.txt into the hash table using the facility ID. The hash table is Open Adressing and uses Linear 
+Probing to handle collisions. Their are also functions for printing the hash table in file order and searching
+the table by hashing a user-inputted facility ID.
+
+Some functions, such as SearchByName and SearchByCategory, are not implemented into
+the code yet because they are not required for Milestone 1.
+
+Author: Micah Yarbrough
+
+*/
 
 #include "HashTable.h"
 
@@ -20,6 +35,15 @@ int HashTable::Hash(string facID){
 	return hashNum;
 	
 }
+
+/*
+	The Hash(string facID) takes the inputted string and runs it through the custom hash function,
+	and then returns the result, which becomes a hash key. The hash function is below.
+	
+	key = (ASCII(facID[0]) + ASCII(facID[1]) + ASCII(facID[2]) + ASCII(facID[3])) % numBuckets
+	
+	where numBuckets = 241
+*/
 
 void HashTable::StoreFacility(ifstream& facFile){
 	
@@ -213,6 +237,14 @@ void HashTable::StoreFacility(ifstream& facFile){
 	
 }
 
+/*
+	The StoreFacility(ifstream& facFile) takes the facility records stored inside facilities.txt
+	and puts them into the hash table by hashing their facility ID. It also has implementation to
+	perform Linear Probing collision handling, rejecting lines with invalid facility records, and
+	checking to see if a facility in the hash table is already using the facility ID that a later
+	line is trying to use.
+*/
+
 void HashTable::Print(){
 	
 	int i, hKey, j;
@@ -239,6 +271,10 @@ void HashTable::Print(){
 
 	cout << "+----------------------------------------------------------------------------+" << endl << endl;
 }
+
+/*
+	The Print() function prints the elements in the hash table in the same order as facilities.txt.
+*/
 
 void HashTable::SearchByID(string facID){
 	
@@ -277,10 +313,28 @@ void HashTable::SearchByID(string facID){
 	
 }
 
+/*
+	The SearchByID(string facID) function a valid user-inputted facility ID, hashes it using the
+	the hash function, and checks that hash against the other hash keys in the hash table. When
+	the program finds a matching hash key, it checks the facility ID of that facility to make
+	sure its the correct facility. If the facility matches, it outputs a found message and 
+	the information regarding the facility.
+	
+	If the facility ID doesn't match, the code knows this is a collision and tries to find where 
+	the collided facility is now. When it finds the facility, it outputs a found message and 
+	the information regarding the facility.
+	
+	If no facility with the user-inputted facility ID is found, it outputs a not found message.
+*/
 
 int HashTable::GethTableSize() const{
 	return hTable.size();
 }
+
+/*
+	The GethTableSize() function returns the size of the hash table. This is for the facilities.txt
+	load summary.
+*/
 
 void HashTable::SetnumBuckets(int numBucketsX){
 	numBuckets = numBucketsX;
