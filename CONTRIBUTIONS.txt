@@ -32,12 +32,17 @@ main.cpp components and linking between files
 
 
 
-Team Member:
+Team Member: Dabira Olubobola 
 
-Modules Owned-
+Modules Owned- 
+DepartmentMenu.h 
+DepartmentMenu.cpp 
+StringUtils.h 
+StringUtils.cpp 
+
 	
 
 
-Shared Work Contributions-
+Shared Work Contributions- 
 
 
