@@ -39,14 +39,53 @@ Test 2
 
 Description:
 
+This test was to see if the menu in 'main.cpp' correctly handled invalid menu
+input because the last test failed. This test also includes a blank line.
 
 Input:
+
+0 to 9
+-1
+20
+-20
+111111
+-111111
+A
+a
+abcd
+ABCD
 
 
 Expected Result:
 
+The menu should reject any input that is not 0 to 9 and print a suitable error
+message telling the user to give a valid menu option.
 
 Actual Result:
 
+The menu now outputs the error message when anything other than 1 - 9 is
+inputted by the user.
 
-Pass or Fail:
+Pass or Fail: Pass
+
+
+Test 3
+
+Description:
+
+This test was to see how storeFacility() reacted to a different .txt file.
+
+Input:
+
+facilities(test3).txt
+
+Expected Output:
+
+The function should reject 8 files and print warning messages for each while still
+putting the other files into the hash table.
+
+Actual Output:
+
+The program compiled, but crashed halfway through the warning messages. I'm assuming because
+of line 12, since the code is hard coded to think that the file will only give it a 
+facility ID with 4 characters. This needs to be fixed.

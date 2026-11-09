@@ -1,6 +1,26 @@
+/*
+
+Purpose:
+ 
+This program is built to implement a Campus Facilities Directory that uses
+lets a user locate facilities, explore building connections, find routes, browse a
+department hierarchy, and view summary reports. It uses a hash table to store and
+look for facilities, an undirected graph for campus buildings and walkways, and a
+general tree for the department heirarchy.
+
+Some implementations, such as the facility category report, are not implemented into
+the code yet because they are not required for Milestone 1.
+
+Author: Micah Yarbrough, Dabira Olubobola, and Jayden Thompson
+
+*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cctype>
+#include "HashTable.h"
+#include "Facility.h"
 #include "CampusGraph.h"
 #include "BFS.h"
 
@@ -8,7 +28,7 @@ using namespace std;
 
 int main (){
 
-	
+	HashTable hTab;
 	
 	cout << "+--------------------------------------------------+" << endl;
 	cout << "|         Computer Science and Engineering         |" << endl;
@@ -81,8 +101,15 @@ int main (){
 	else{
 		
 		cout << "facilities.txt loaded successfully." << endl;
+		hTab.StoreFacility(facFile);
 		
-		//add load summary
+		cout << endl << "Load summary" << endl;
+		cout << "------------" << endl;
+		cout << "Facilities Accepted: " << hTab.GethTableSize() << endl;
+		cout << "Facilities Rejected: " << hTab.GetnumReject() << endl;
+		cout << "Hash Capacity: " << hTab.GetnumBuckets() << endl;
+		cout << "Entries: " << hTab.GethTableSize() << endl;
+		cout << "Collisions: " << hTab.GetnumCol() << endl << endl;
 	}
 	
 	ifstream depFile;
@@ -118,16 +145,45 @@ int main (){
 		cout << "0. Exit                                     " << endl << endl;
 		
 		cout << "Enter your choice: ";
-		cin >> choice;
+		getline(cin, choice);
 		
 		if(choice == "1"){
 
-			
+			hTab.Print();
 			
 		}
 		else if(choice == "2"){
 			
+			cout << "Enter facility ID (F###): " << endl;
+			getline(cin, choice);
+
+			choice.at(0) = toupper(choice.at(0));					//capitilizes the f in the facility ID beofre passing into error handling and hTab's SearchByID function
 			
+			if(choice.size() != 4){
+				
+				cout << endl << "Invaild facility ID. Please try again with a facility that is 4 characters." << endl;
+			
+				//the coditions allow the menu to reject an invalid user-inputted facility ID shorter or longer than 4 characters
+			}
+			else{
+				
+				char c2, c3, c4;
+				c2 = static_cast<char>(choice.at(1));
+				c3 = static_cast<char>(choice.at(2));
+				c4 = static_cast<char>(choice.at(3));
+				
+				if((choice.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c2) == 0) || (isdigit(c3) == 0)){
+					
+					cout << endl << "Invaild facility ID. Please try again in the form F### or f###." << endl;
+					
+					//the coditions allow the menu to reject an invalid user-inputted facility ID
+				}
+				else{
+					
+					hTab.SearchByID(choice);
+				}
+				
+			}
 			
 		}
 		else if(choice == "3"){

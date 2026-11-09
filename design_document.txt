@@ -24,4 +24,3 @@ facility ID.
 Capacity
 
 The hash table capacity is the same as the number of buckets, 241.
-
