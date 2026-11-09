@@ -6,7 +6,7 @@
 //          Build:  g++ -std=c++17 -Wall -Iinclude src/StringUtils.cpp
 //                  src/DepartmentTree.cpp src/DepartmentMenu.cpp
 //                  src/tree_test_main.cpp -o tree_test
-//          Run:    ./tree_test [dataDir] 
+//          Run:    ./tree_test 
 // Author:  Dabira Olubobola (Member C)
 
 #include "DepartmentTree.h"
