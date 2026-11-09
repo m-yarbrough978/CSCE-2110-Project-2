@@ -1,0 +1,27 @@
+Hash Table
+
+Hash Function
+
+key = (ACSII(facID[0]) + ACSII(facID[1]) + ACSII(facID[2]) + ACSII(facID[3])) % numBuckets
+
+where facID is the string passed to the hash function and numBuckets = 241
+
+Collision Strategy - Linear Probing
+
+The code uses linear probing to identify collisions. I chose to use linear probing because
+I understand it better than Separate Chaining, so I felt it was the best for our program.
+Separate Chaining also requires more memory than Linear Probing (since it uses a linked list),
+and were already using memory with the tree and undirected graph.
+
+Collision Counting Definition
+
+The program counts a collision whenever it tries to put a key - facility pair into a filled
+bucket. This means that every time the program performs the Linear Probing collision handling, if
+there is already a facility in the very next bucket, another collision is counted. Individual elements
+in the hash table also have personal collision counts, which are used when searching by a user-inputted
+facility ID.
+
+Capacity
+
+The hash table capacity is the same as the number of buckets, 241.
+
