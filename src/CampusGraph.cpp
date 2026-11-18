@@ -6,10 +6,10 @@
 using namespace std;
 
 // Make names lowercase so capitalization does not matter
-string makeLower(string name) {
+string makeUpper(string name) {
 
     for (int i = 0; i < name.length(); i++) {
-        name[i] = tolower(name[i]);
+        name[i] = toupper(name[i]);
     }
 
     return name;
@@ -18,11 +18,11 @@ string makeLower(string name) {
 // Find a building by name
 int CampusGraph::findBuilding(string name) {
 
-    name = makeLower(name);
+    name = makeUpper(name);
 
     for (int i = 0; i < buildings.size(); i++) {
 
-        if (makeLower(buildings[i].name) == name) {
+        if (makeUpper(buildings[i].name) == name) {
             return i;
         }
     }
