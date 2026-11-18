@@ -45,10 +45,7 @@ void CampusGraph::addBuilding(string name) {
 }
 
 // Add a connection between two buildings.
-void CampusGraph::addConnection(
-    string building1,
-    string building2
-) {
+void CampusGraph::addConnection(string building1, string building2) {
 
     int first = findBuilding(building1);
     int second = findBuilding(building2);
