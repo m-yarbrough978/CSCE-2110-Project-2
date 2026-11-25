@@ -1,4 +1,12 @@
+/*
+Purpose:
 
+This source file implements the default constructor and the mutators and accessors
+for the private variables of the Facility class.
+
+Author: Micah Yarbrough
+
+*/
 
 #include <Facility.h>
 
