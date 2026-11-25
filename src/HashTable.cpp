@@ -46,19 +46,21 @@ int HashTable::Hash(string facID){
 */
 
 void HashTable::StoreFacility(ifstream& facFile){
-	
+
+	hTable.resize(numBuckets);
 	key_Fac tempPair;
 	Facility tempFac;
 	char line[100];
 	string tempStr;
-	int lineCount = 1;
+	int lineCount = 0;
 	int i, j , hKey;
 	
 	facFile.ignore(numeric_limits<streamsize>::max(), '\n');	//ensures the first line of the file is skipped
 	
 	
 	while(facFile.getline(line, 100)){
-		
+
+		++lineCount;
 		int barCount = 0;
 		int count, countA, countB, countC;
 		
@@ -96,7 +98,7 @@ void HashTable::StoreFacility(ifstream& facFile){
 		}
 
 		tempStr = line;
-		tempStr.erase(4);
+		tempStr.erase(countA - 1);
 		tempStr.at(0) = toupper(tempStr.at(0));		//capitilizes the f in the facility ID beofre hashing or putting it into tempFac
 		tempFac.SetID(tempStr);
 		
@@ -158,6 +160,7 @@ void HashTable::StoreFacility(ifstream& facFile){
 		if((tempStr.size() != 4) || (tempStr.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c2) == 0) || (isdigit(c3) == 0) || (tempFac.GetFName().size() < 2) || (tempFac.GetCategory().size() < 2)){
 			
 			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected for reasons." << endl;
 			continue;
 			
 			//the coditions allow the code to reject any line that has an invalid key and an empty facility name or category
@@ -165,6 +168,7 @@ void HashTable::StoreFacility(ifstream& facFile){
 		else if((dupeID == 1)){		//this condition allows the code to reject a facility in facilites.txt with a duplicate ID
 			
 			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility ID is already in use." << endl;
 			continue;
 		}
 		else{
@@ -183,7 +187,7 @@ void HashTable::StoreFacility(ifstream& facFile){
 					
 						for(j = 0; j < hTable.size(); ++j){
 						
-							tempPair = hTable[j];
+							tempPair = hTable[tempPair.key];
 							
 							if(tempKey == tempPair.key){
 								
@@ -196,17 +200,21 @@ void HashTable::StoreFacility(ifstream& facFile){
 							
 							
 							if(hKey >= 241){					//this if-else statement should make hKey 0 when it equals maax capacity (although then we'd need to check it against the either buckets)
-								tempKey = tempKey - 241;
+								tempKey = 0;
+								tempPair = 0;
 							}
 							else if(tempKey < 241){
 								++tempKey;
+								++tempPair.key;
 							}
 							
 						}
 						
 						tempPair = {tempKey, tempFac};
-						hTable.push_back(tempPair);
+						hTable[tempKey] = tempPair;
+						fileOrder.push_back(tempFac);
 						++dupe;
+						++numPairs;
 						break;
 					}
 					else{
@@ -219,18 +227,20 @@ void HashTable::StoreFacility(ifstream& facFile){
 			
 				if(dupe == 0){							//if a duplicate facility ID wasn't found, then enter the new facility with tempPair unaffected by collsion handling
 					tempPair = {hKey, tempFac};
-					hTable.push_back(tempPair);
+					hTable[tempKey] = tempPair;
+					fileOrder.push_back(tempFac);
+					++numPairs;
 				}
 				
 			}
 			else if(lineCount == 1){					//if this is the first line fully searched, then enter the first facility into the hash table
 			
 				tempPair = {hKey, tempFac};
-				hTable.push_back(tempPair);
-				
+				hTable[tempKey] = tempPair;
+				fileOrder.push_back(tempFac);
+				++numPairs;
 			}
-		
-			++lineCount;
+			
 		}
 		
 	}
@@ -247,29 +257,36 @@ void HashTable::StoreFacility(ifstream& facFile){
 
 void HashTable::Print(){
 	
-	int i, hKey, j;
-	key_Fac tempPair;
+	int i;
 	Facility tempFac;
 	
-	cout << endl;
-	cout << "Facility with ID " << facID << " found." << endl;
-	cout << "+--------------------------------------------------------------------------------------+" << endl;
-	cout << "|Facility ID |     Facility Name     |    Building Name    |     Facility Category     |" << endl;
-	cout << "|--------------------------------------------------------------------------------------|" << endl;
+	if(fileOrder.empty() == 1){
+		
+		cout << endl << "There no facility records in database." << endl;
+	}
+	else{
 	
-	for(i = 0; i < hTable.size(); ++i){
+		cout << endl;
+		cout << "+---------------------------------------------------------------------------------------+" << endl;
+		cout << "| Facility ID |      Facility Name      |    Building Name    |    Facility Category    |" << endl;
+		cout << "|---------------------------------------------------------------------------------------|" << endl;
+	
+		for(i = 0; i < fileOrder.size(); ++i){
 		
-		tempPair = hTable[i];
-		tempFac = tempPair.fac;
-		
-		cout << left << "|" << setw(13) << tempFac.GetID() << "|";
-		cout << setw(25) << tempFac.GetFName() << "|";
-		cout << setw(21) << tempFac.GetBName() << "|";
-		cout << setw(25) << tempFac.GetCategory() << "|" << endl; 
+			tempFac = fileOrder[i];
+	
+			cout << left << "|" << setw(13) << tempFac.GetID() << "|";
+			cout << setw(25) << tempFac.GetFName() << "|";
+			cout << setw(21) << tempFac.GetBName() << "|";
+			cout << setw(25) << tempFac.GetCategory() << "|" << endl;
+			
+		}
+	
+		cout << "+---------------------------------------------------------------------------------------+" << endl;
+		cout << endl << "Total Facilities: " << numPairs << endl << endl;
 		
 	}
-
-	cout << "+----------------------------------------------------------------------------+" << endl << endl;
+	
 }
 
 /*
@@ -278,8 +295,71 @@ void HashTable::Print(){
 
 void HashTable::SearchByID(string facID){
 
+	int hKey = Hash(facID);
+	int i;
+	int fCheck = 0;
+	key_Fac tempPair;
 	
-	cout << endl << "Facility with ID " << facID << " not found." << endl;
+	tempPair = hTable[hKey];
+	
+	if(facID == tempPair.fac.GetID()){
+		
+		cout << endl;
+		cout << "Facility with ID " << facID << " found." << endl;
+		cout << "+---------------------------------------------------------------------------------------+" << endl;
+		cout << "| Facility ID |      Facility Name      |    Building Name    |    Facility Category    |" << endl;
+		cout << "|---------------------------------------------------------------------------------------|" << endl;
+		cout << left << "|" << setw(13) << tempPair.fac.GetID() << "|";
+		cout << setw(25) << tempPair.fac.GetFName() << "|";
+		cout << setw(21) << tempPair.fac.GetBName() << "|";
+		cout << setw(25) << tempPair.fac.GetCategory() << "|" << endl;
+		cout << "+---------------------------------------------------------------------------------------+" << endl << endl;
+		
+	}
+	else{
+	
+		for(i = 0; i < hTable.size(); ++i){
+		
+			tempPair = hTable[hKey];
+			
+			if(hKey == tempPair.key){
+			
+				if(facID == tempPair.fac.GetID()){
+					
+					cout << endl;
+					cout << "Facility with ID " << facID << " found." << endl;
+					cout << "+---------------------------------------------------------------------------------------+" << endl;
+					cout << "| Facility ID |      Facility Name      |    Building Name    |    Facility Category    |" << endl;
+					cout << "|---------------------------------------------------------------------------------------|" << endl;
+					cout << left << "|" << setw(13) << tempPair.fac.GetID() << "|";
+					cout << setw(25) << tempPair.fac.GetFName() << "|";
+					cout << setw(21) << tempPair.fac.GetBName() << "|";
+					cout << setw(25) << tempPair.fac.GetCategory() << "|" << endl;
+					cout << "+---------------------------------------------------------------------------------------+" << endl << endl;
+					++fCheck;
+					break;
+				}
+			}
+			else{
+			
+				continue;
+			}
+			
+			if(hKey >= 241){					//this if-else statement should make hKey 0 when it equals max capacity (although then we'd need to check it against the either buckets)
+				hKey = 0;
+			}
+			else if(hKey < 241){
+				++hKey;
+			}
+			
+		}
+	}
+	
+	if(fCheck == 0){
+		
+		cout << endl << "Facility with ID " << facID << " not found." << endl;
+	}
+	
 }
 
 /*
@@ -294,21 +374,6 @@ void HashTable::SearchByID(string facID){
 	the information regarding the facility.
 	
 	If no facility with the user-inputted facility ID is found, it outputs a not found message.
-	
-	HOWEVER - This function does not work like it should
-	I couldn't figure out how to search the table without a scan, so I decided not to implementat
-	this function because the rubric will automatically give me either 4 - 0 points if the lookup 
-	function uses a scan. My search function doesn't use a scan anymore, but it also doesn't search anything.
-	I will fix this by the final deadline.
-*/
-
-int HashTable::GethTableSize() const{
-	return hTable.size();
-}
-
-/*
-	The GethTableSize() function returns the size of the hash table. This is for the facilities.txt
-	load summary.
 */
 
 void HashTable::SetnumBuckets(int numBucketsX){
@@ -333,4 +398,12 @@ void HashTable::SetnumReject(int numRejectX){
 
 int HashTable::GetnumReject() const{
 	return numReject;
+}
+
+void HashTable::SetnumPairs(int numPairsX){
+	numPairs = numPairsX;
+}
+
+int HashTable::GetnumPairs() const{
+	return numPairs;
 }
