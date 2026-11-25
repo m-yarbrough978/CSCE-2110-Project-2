@@ -135,13 +135,21 @@ int main (){
 		cout << "<<<  Campus Facilities Directory System  >>>" << endl;
 		cout << "1. View all facilities                      " << endl;
 		cout << "2. Search facility by ID                    " << endl;
-		cout << "3. View campus graph                        " << endl;
-		cout << "4. Display graph counts and degrees         " << endl;
-		cout << "5. Find Reachable buildings (BFS)           " << endl;
-		cout << "6. Add department                           " << endl;
-		cout << "7. Search department                        " << endl;
-		cout << "8. Display department heirarchy             " << endl;
-		cout << "9. Run preorder traversal                   " << endl;
+		cout << "3. Search facility by name                  " << endl;
+		cout << "4. Search facility by category              " << endl;
+		cout << "5. View campus graph                        " << endl;
+		cout << "6. Display graph counts and degrees         " << endl;
+		cout << "7. Find Reachable buildings (BFS)           " << endl;
+		cout << "8. Find shortest path (BFS)                 " << endl;
+		cout << "9. Add department                           " << endl;
+		cout << "10. Search department                       " << endl;
+		cout << "11. Display department heirarchy            " << endl;
+		cout << "12. Preorder traversal                      " << endl;
+		cout << "13. Postorder traversal                     " << endl;
+		cout << "14. Level-order traversal                   " << endl;
+		cout << "15. Department statistics                   " << endl;
+		cout << "16. Facility Category Report                " << endl;
+		cout << "17. Graph Connectivity Report               " << endl;
 		cout << "0. Exit                                     " << endl << endl;
 		
 		cout << "Enter your choice: ";
@@ -156,8 +164,6 @@ int main (){
 			
 			cout << "Enter facility ID (F###): " << endl;
 			getline(cin, choice);
-
-			choice.at(0) = toupper(choice.at(0));					//capitilizes the f in the facility ID beofre passing into error handling and hTab's SearchByID function
 			
 			if(choice.size() != 4){
 				
@@ -166,6 +172,26 @@ int main (){
 				//the coditions allow the menu to reject an invalid user-inputted facility ID shorter or longer than 4 characters
 			}
 			else{
+
+				int i, sCount;
+				int charCount = 0;
+			
+				for(i = 0; i < choice.size(); ++i){
+				
+					if(isalnum(choice.at(i))){
+						
+						++charCount;
+					}
+					
+					if(charCount == 1){
+						
+						sCount = i;
+					}
+				}
+			
+				choice.erase(0, sCount);
+			
+				choice.at(0) = toupper(choice.at(0));					//capitilizes the f in the facility ID beofre passing into error handling and hTab's SearchByID function
 				
 				char c2, c3, c4;
 				c2 = static_cast<char>(choice.at(1));
@@ -188,32 +214,78 @@ int main (){
 		}
 		else if(choice == "3"){
 
-			cout << "\n===== Campus Graph =====" << endl;
-
-			graph.displayGraph()	
+			cout << endl << "Enter facility name: " << endl;
+			getline(cin, choice);
+			
+			int i, sCount;
+			int charCount = 0;
+			
+			for(i = 0; i < choice.size(); ++i){
+				
+				if(isalnum(choice.at(i))){
+					
+					++charCount;
+				}
+				
+				if(charCount == 1){
+					
+					sCount = i;
+				}
+			}
+			
+			choice.erase(0, sCount);
+			
+			if(choice.size() <= 0){
+				
+				cout << endl << "Invaild facility name. Please try again with a facility name." << endl;
+			}
+			else{
+				
+				hTab.SearchByName(choice);
+				
+			}
 			
 		}
 			
 		else if(choice == "4"){
 
-			cout << "\n===== Graph Counts and Degrees =====" << endl;
-
-			graph.displayCounts();
-
+			cout << endl << "Enter facility category: " << endl;
+			getline(cin, choice);
+			
+			int i, sCount;
+			int charCount = 0;
+			
+			for(i = 0; i < choice.size(); ++i){
+				
+				if(isalnum(choice.at(i))){
+					
+					++charCount;
+				}
+				
+				if(charCount == 1){
+					
+					sCount = i;
+				}
+			}
+			
+			choice.erase(0, sCount);
+			
+			if(choice.size() <= 0){
+				
+				cout << endl << "Invaild facility category. Please try again with a facility category." << endl;
+			}
+			else{
+				
+				hTab.SearchByCategory(choice);
+				
+			}
+			
 		}
 			
 		else if(choice == "5"){
 
-			string start;
 
-			cout << "\Enter starting building: ";
-
-			cin.ignore();
-			getline(cin, start);
-
-			BFSResult result = breadthFirstSearch(graph, start);
-			displayBFS(graph, result);
-
+			
 		}
 			
 		else if(choice == "6"){
@@ -232,6 +304,46 @@ int main (){
 			
 		}
 		else if(choice == "9"){
+			
+			
+			
+		}
+		else if(choice == "10"){
+			
+			
+			
+		}
+		else if(choice == "11"){
+			
+			
+			
+		}
+		else if(choice == "12"){
+			
+			
+			
+		}
+		else if(choice == "13"){
+			
+			
+			
+		}
+		else if(choice == "14"){
+			
+			
+			
+		}
+		else if(choice == "15"){
+			
+			
+			
+		}
+		else if(choice == "16"){
+			
+			
+			
+		}
+		else if(choice == "17"){
 			
 			
 			
