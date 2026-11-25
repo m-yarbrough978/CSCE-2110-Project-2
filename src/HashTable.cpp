@@ -314,6 +314,7 @@ void HashTable::SearchByID(string facID){
 		cout << setw(21) << tempPair.fac.GetBName() << "|";
 		cout << setw(25) << tempPair.fac.GetCategory() << "|" << endl;
 		cout << "+---------------------------------------------------------------------------------------+" << endl << endl;
+		++fCheck;
 		
 	}
 	else{
@@ -363,7 +364,7 @@ void HashTable::SearchByID(string facID){
 }
 
 /*
-	The SearchByID(string facID) function SHOULD use a valid user-inputted facility ID, hashes it
+	The SearchByID(string facID) function uses a valid user-inputted facility ID, hashes it
 	using the the hash function, and checks that hash against the other hash keys in the hash table.
 	When the program finds a matching hash key, it checks the facility ID of that facility to make
 	sure its the correct facility. If the facility matches, it outputs a found message and the information
@@ -375,6 +376,160 @@ void HashTable::SearchByID(string facID){
 	
 	If no facility with the user-inputted facility ID is found, it outputs a not found message.
 */
+
+void HashTable::SearchByName(string facName){
+	
+	string facNameCopy = facName;
+	int i, j;
+	int numMats = 0;
+	Facility tempFac;
+	string tempStr;
+	
+	for(i = 0; i < facName.size(); ++i){
+		
+		if(isalpha(facName.at(i))){
+			
+			facName.at(i) = toupper(facName.at(i));
+		}
+	}
+	
+	cout << endl;
+	cout << "+---------------------------------------------------------------------------------------+" << endl;
+	cout << "| Facility ID |      Facility Name      |    Building Name    |    Facility Category    |" << endl;
+	cout << "|---------------------------------------------------------------------------------------|" << endl;
+	
+	for(i = 0; i < fileOrder.size(); ++i){
+		
+		tempFac = fileOrder[i];
+		tempStr = tempFac.GetFName();
+		
+		for(j = 0; j < tempStr.size(); ++j){
+			
+			if(isalpha(tempStr.at(j))){
+				
+				tempStr.at(j) = toupper(tempStr.at(j));
+			}
+		}
+		
+		if(facName == tempStr){
+			
+			cout << left << "|" << setw(13) << tempFac.GetID() << "|";
+			cout << setw(25) << tempFac.GetFName() << "|";
+			cout << setw(21) << tempFac.GetBName() << "|";
+			cout << setw(25) << tempFac.GetCategory() << "|" << endl;
+			++numMats;
+			
+		}
+		else{
+			
+			continue;
+		}
+		
+	}
+	
+	cout << "+---------------------------------------------------------------------------------------+" << endl;
+	
+	if(numMats == 0){
+		
+		cout << "No matches found for a facility with name " << facNameCopy << "." << endl;
+		cout << "Double check that you spelled the facility name correctly and try again." << endl << endl;
+	}
+	else{
+		
+		cout << "Total Matches: " << numMats << endl << endl;
+	}
+	
+}
+
+/*
+	The SearchByName function searches the facilities for a user-inputted facility name and prints the facility information 
+	for the facility or facilites that have a matching facility name, as well as the total number of matches.
+	
+	If no facilities have a matching facility name, the function prints an error message.
+*/
+
+void HashTable::SearchByCategory(string facCat){
+	
+	string facCatCopy = facCat;
+	int i, j;
+	int numMats = 0;
+	Facility tempFac;
+	string tempStr;
+	
+	for(i = 0; i < facCat.size(); ++i){
+		
+		if(isalpha(facCat.at(i))){
+			
+			facCat.at(i) = toupper(facCat.at(i));
+		}
+	}
+	
+	cout << endl;
+	cout << "+---------------------------------------------------------------------------------------+" << endl;
+	cout << "| Facility ID |      Facility Name      |    Building Name    |    Facility Category    |" << endl;
+	cout << "|---------------------------------------------------------------------------------------|" << endl;
+	
+	for(i = 0; i < fileOrder.size(); ++i){
+		
+		tempFac = fileOrder[i];
+		tempStr = tempFac.GetCategory();
+		
+		for(j = 0; j < tempStr.size(); ++j){
+			
+			if(isalpha(tempStr.at(j))){
+				
+				tempStr.at(j) = toupper(tempStr.at(j));
+			}
+		}
+		
+		if(facCat == tempStr){
+			
+			cout << left << "|" << setw(13) << tempFac.GetID() << "|";
+			cout << setw(25) << tempFac.GetFName() << "|";
+			cout << setw(21) << tempFac.GetBName() << "|";
+			cout << setw(25) << tempFac.GetCategory() << "|" << endl;
+			++numMats;
+			
+		}
+		else{
+			
+			continue;
+		}
+		
+	}
+	
+	cout << "+---------------------------------------------------------------------------------------+" << endl;
+	
+	if(numMats == 0){
+		
+		cout << "No matches found for a facility in category " << facCatCopy << "." << endl;
+		cout << "Double check that you spelled the facility category correctly and try again." << endl << endl;
+	}
+	else{
+		
+		cout << "Total Matches: " << numMats << endl << endl;
+	}
+	
+}
+
+/*
+	The SearchByCategory function searches the facilities for a user-inputted facility category and prints the facility information 
+	for the facility or facilites that have a matching facility category, as well as the total number of matches.
+	
+	If no facilities have a matching facility category, the function prints an error message.
+*/
+
+void HashTable::PrintCategoryReport(){
+	
+	struct Category {
+		
+		string categoryName;
+		int total;
+	};
+	
+	
+	
+}
 
 void HashTable::SetnumBuckets(int numBucketsX){
 	numBuckets = numBucketsX;
