@@ -33,6 +33,9 @@ class HashTable{
 		void StoreFacility(ifstream& facFile);	//function that takes the facility file and puts it into the hash table
 		void Print();							//prints the elements in the hash table using their indices
 		void SearchByID(string facID);			//prints the facilty information for the facility (or facilities) by turing the ID into the key
+		void SearchByName(string facName);		//prints the facility or facilities whose name matches a user-inputted facility name
+		void SearchByCategory(string facCat);	//prints the facility or facilities whose category matches a user-inputted facility category
+		void PrintCategoryReport();				//prints a report that tells us what facility categories are in the hash table and how many facilities are in that category
 		void SetnumBuckets(int numBucketsX);	//Mutator for total number of buckets (technically not used)
 		int GetnumBuckets() const;				//Accessor for total number of buckets
 		void SetnumCol(int numColX);			//Mutator for total number of collisions (technically not used)
