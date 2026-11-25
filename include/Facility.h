@@ -1,4 +1,13 @@
+/*
 
+Purpose:
+
+This header file defines the facility information (private) variables and provides
+their mutators and accessors, as well as a default constructor for the Facility class.
+
+Author: Micah Yarbrough
+
+*/
 
 #ifndef FACILITY_H
 #define FACILITY_H
