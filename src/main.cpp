@@ -340,7 +340,7 @@ int main (){
 		}
 		else if(choice == "16"){
 			
-			
+			hTab.PrintCategoryReport();
 			
 		}
 		else if(choice == "17"){
