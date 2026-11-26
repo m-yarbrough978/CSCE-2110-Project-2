@@ -527,7 +527,80 @@ void HashTable::PrintCategoryReport(){
 		int total;
 	};
 	
+	vector<Category> categories;
+	int i, j;
+	Facility tempFac;
+	string tempStr, tempStr2;
+	Category tempCat;
 	
+	for(i = 0; i < fileOrder.size(); ++i){
+		
+		int check = 0;
+		tempFac = fileOrder[i];
+		tempStr = tempFac.GetCategory();
+		
+		
+		if(categories.size() == 0){
+			
+			tempCat.categoryName = tempStr;
+			tempCat.total = 1;
+			categories.push_back(tempCat);
+		}
+		else{
+			
+			for(j = 0; j < categories.size(); ++j){
+				
+				tempCat = categories[j];
+				tempStr2 = tempCat.categoryName;
+				
+				if(tempStr2 == tempStr){
+					
+					++tempCat.total;
+					categories[j] = tempCat;
+					check = 1;
+					break;
+				}
+			}
+			
+			if(check == 0){
+				
+				tempCat.categoryName = tempStr;
+				tempCat.total = 1;
+				categories.push_back(tempCat);
+			}
+		}
+		
+	}
+	
+	//clean up the output message
+	
+	cout << "   <<< Facility Category Report >>>   " << endl;
+	cout << "+------------------------------------+" << endl;
+	cout << "|  Category  |  Count  |  Percentage |" << endl;
+	cout << "|------------------------------------|" << endl;
+	
+	for(i = 0; i < categories.size(); ++i){
+		
+		tempCat = categories[i];
+		
+		float percent = (static_cast<float>(tempCat.total) / static_cast<float>(fileOrder.size())) * 100;		//if the percents don't come out as whole #s, the percent variable probably won't be correct
+		cout << "|" << tempCat.categoryName << "   |" << tempCat.total << "   |" << percent << "%  |" << endl;
+		
+	}
+	
+	cout << "|------------------------------------|" << endl;
+	cout << "|Total   |" << fileOrder.size() << "   | 100% |" << endl;
+	cout << "+------------------------------------+" << endl << endl;
+	
+}
+
+/*
+	The PrintCategoryReport function looks through the fileOrder vector to see all the accepted files' categories, puts 
+	categories into the categories vector, and updates the the count for each category whrn it encounters a matching
+	category that's already in the categories vector. The fucntion then prints a Category Report that shows the categories
+	along with how many accepted facilities are in that category and what percentage of the accepted facilities categories this
+	specific category makes up.
+*/
 	
 }
 
