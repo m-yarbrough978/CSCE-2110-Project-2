@@ -572,25 +572,26 @@ void HashTable::PrintCategoryReport(){
 		
 	}
 	
-	//clean up the output message
-	
-	cout << "   <<< Facility Category Report >>>   " << endl;
-	cout << "+------------------------------------+" << endl;
-	cout << "|  Category  |  Count  |  Percentage |" << endl;
-	cout << "|------------------------------------|" << endl;
+	cout << endl << "          <<< Facility Category Report >>>           " << endl;
+	cout << "+---------------------------------------------------+" << endl;
+	cout << "|         Category         |  Count  |  Percentage  |" << endl;
+	cout << "|---------------------------------------------------|" << endl;
 	
 	for(i = 0; i < categories.size(); ++i){
 		
 		tempCat = categories[i];
 		
-		float percent = (static_cast<float>(tempCat.total) / static_cast<float>(fileOrder.size())) * 100;		//if the percents don't come out as whole #s, the percent variable probably won't be correct
-		cout << "|" << tempCat.categoryName << "   |" << tempCat.total << "   |" << percent << "%  |" << endl;
+		float percent = (static_cast<float>(tempCat.total) / static_cast<float>(fileOrder.size())) * 100;		//percents that aren't whole numbers still haven't been tested
+		
+		cout << left << "|" << setw(26) << tempCat.categoryName << "|";
+		cout << setw(9) << tempCat.total << "|";
+		cout << fixed << setprecision(1) << percent << "%         |" << endl;
 		
 	}
 	
-	cout << "|------------------------------------|" << endl;
-	cout << "|Total   |" << fileOrder.size() << "   | 100% |" << endl;
-	cout << "+------------------------------------+" << endl << endl;
+	cout << "|---------------------------------------------------|" << endl;
+	cout << "|Total                     |" << setw(9) << fileOrder.size() << "|100.0%        |" << endl;
+	cout << "+---------------------------------------------------+" << endl;
 	
 }
 
