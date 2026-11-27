@@ -4,10 +4,8 @@ Team Member: Micah Yarbrough
 
 Modules Owned-
 
-Facility.h
-Facility.cpp
-HashTable.h
-HashTable.cpp
+6.1(LOAD-1 and LOAD-2 through 5 based on facilities.txt)
+6.2, 6.3, 6.7(RPT-1), 6.8, 10.2, 10.4(menu)
 
 Shared Work Contributions-
 
@@ -15,29 +13,25 @@ Created GitHub repository
 
 Created main.cpp, the required data files, README.txt, and CONTRIBUTIONS.txt and added them to the repository
 
+Created test_results.txt and added it to GitHub with the first test
 
-Team Member: Jayden Thompson
+Updated main.cpp to implement menu option 1 and 2 and improved the menu's error handling
+
+Wrote the purpose and author comment for main.cpp and added it to Micah_branch in GitHub
+
+Updated the menu in main to include the full menu (1 - 17)
+
+
+Team Member:
 
 Modules Owned-
 
-BFS.h
-BFS.cpp
-CampusGraph.h
-CampusGraph.cpp
-	
-
 Shared Work Contributions-
 
-main.cpp components and linking between files
 
+Team Member: 
 
-Team Member: Dabira Olubobola 
-
-Modules Owned- 
-DepartmentMenu.h 
-DepartmentMenu.cpp 
-StringUtils.h 
-StringUtils.cpp 
+Modules Owned-
 
 Shared Work Contributions- 
 
