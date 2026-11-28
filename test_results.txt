@@ -89,3 +89,34 @@ Actual Output:
 The program compiled, but crashed halfway through the warning messages. I'm assuming because
 of line 12, since the code is hard coded to think that the file will only give it a 
 facility ID with 4 characters. This needs to be fixed.
+
+
+Test 4
+
+Description:
+
+This test was to see how storeFacility() reacted to a different .txt file and see if the
+corrections made to storeFacility() were enough to make the test file in test 3 run properly.
+Line 12 in facilities(test3).txt only had 3 bars ( | ) in it, which is what made it crash, so 
+the new test file, facilities(test3 with 4th bar in line 12).txt, includes a 4th bar. This
+test can also tell us if the Facility Category Report output message correctly calculates and
+outputs the right percentages for a different facilities file.
+
+Input:
+
+facilities(test3 with 4th bar in line 12).txt
+
+Expected Output:
+
+The function should reject 8 files and print warning messages for each while still
+putting the other files into the hash table. The Facility Category Report should output the
+how much that each specific category makes up in the accepted facilities by percentages. These
+percentages should be correct to one decimal, even if they don't come out to a whole number.
+
+Actual Output:
+
+The program compiles and runs correctly, and the Facility Category Report outputted perfectly,
+with all of the percentages correct even though they weren't whole numbers. However, the storeFacility()
+function only rejected 7 of the 8 facilities that it was expected to. Line 4 (excluding the top line)
+was accepted even though its facility was "F00f". The warning messages for the other 7 facilities rejected
+were correct, but the messages themselves are extremely vague, so I'm planning to change them.
