@@ -159,13 +159,39 @@ void HashTable::StoreFacility(ifstream& facFile){
 			}
 		}
 		
-		if((tempStr.size() != 4) || (tempStr.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c2) == 0) || (isdigit(c3) == 0) || (tempFac.GetFName().size() < 2) || (tempFac.GetCategory().size() < 2)){
+		if(tempStr.size() > 4){
 			
 			++numReject;
-			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected for reasons." << endl;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility ID is too long." << endl;
 			continue;
 			
 			//the coditions allow the code to reject any line that has an invalid key and an empty facility name or category
+		}
+		else if(tempStr.size() < 4){
+			
+			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility ID is too short." << endl;
+			continue;
+		}
+		else if((tempStr.at(0) != 'F') || (isdigit(c2) == 0) || (isdigit(c3) == 0) || (isdigit(c4) == 0)){
+			
+			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility ID contains invaild characters." << endl;
+			continue;
+		}
+		else if(tempFac.GetFName().size() < 2){
+			
+			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility name is too short or isn't given." << endl;
+			continue;
+			
+		}
+		else if(tempFac.GetCategory().size() < 2){
+			
+			++numReject;
+			cout << "WARNING! Line " << lineCount << " in facilties.txt has been rejected because its facility category is too short or isn't given." << endl;
+			continue;
+			
 		}
 		else if((dupeID == 1)){		//this condition allows the code to reject a facility in facilites.txt with a duplicate ID
 			
