@@ -119,4 +119,5 @@ The program compiles and runs correctly, and the Facility Category Report output
 with all of the percentages correct even though they weren't whole numbers. However, the storeFacility()
 function only rejected 7 of the 8 facilities that it was expected to. Line 4 (excluding the top line)
 was accepted even though its facility was "F00f". The warning messages for the other 7 facilities rejected
-were correct, but the messages themselves are extremely vague, so I'm planning to change them.
+were correct, but the messages themselves are extremely vague, so I'm planning to change them. I might need
+to also find a way for the program not to break when there are less than 4 bars.
