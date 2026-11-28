@@ -136,24 +136,26 @@ void HashTable::StoreFacility(ifstream& facFile){
 		
 		tempStr = tempFac.GetID();
 
-		hKey = Hash(tempStr);
-
 		int dupeID = 0;
 		char c2, c3, c4;
-		c2 = static_cast<char>(tempStr.at(1));
-		c3 = static_cast<char>(tempStr.at(2));
-		c4 = static_cast<char>(tempStr.at(3));
 
-		for(i = 0; i < hTable.size(); ++i){				//this for-loop checks if any of the elements in the hash table have the same facility ID as the new facility that we want to add
+		if(tempStr.size() == 4){
 			
-			tempPair = hTable[i];
+			c2 = static_cast<char>(tempStr.at(1));
+			c3 = static_cast<char>(tempStr.at(2));
+			c4 = static_cast<char>(tempStr.at(3));
+
+			for(i = 0; i < hTable.size(); ++i){				//this for-loop checks if any of the elements in the hash table have the same facility ID as the new facility that we want to add
 			
-			if(tempStr == tempPair.fac.GetID()){
-				++dupeID;
-				break;
-			}
-			else{
-				continue;
+				tempPair = hTable[i];
+			
+				if(tempStr == tempPair.fac.GetID()){
+					++dupeID;
+					break;
+				}
+				else{
+					continue;
+				}
 			}
 		}
 		
@@ -172,6 +174,8 @@ void HashTable::StoreFacility(ifstream& facFile){
 			continue;
 		}
 		else{
+
+			hKey = Hash(tempStr);
 			
 			if(lineCount > 1){									//this conditional statement checks if the program is currently on line 1
 			
